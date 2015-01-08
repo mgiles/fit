@@ -15,9 +15,9 @@ convenient for most uses, but if you need access to the exact structure of the f
 you can use the data structures in `Fit.Internal.FitFile` and parsers in
 `Fit.Internal.Parse`.
 
-# Example
+## Example
 
-Given a FIT file name "file.fit", here's how you could extract all of the "speed" fields
+Given a FIT file named "file.fit", here's how you could extract all of the "speed" fields
 from all of the "record" messages using the lenses in the Messages API. Looking at the FIT
 Profile.xls file, you can see that the message number for "record" is `20`, and within a
 record the field number for "speed" is `6`. In a GHCi session:
