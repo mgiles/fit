@@ -3,9 +3,9 @@
 -- also abstracts over the various FIT base types (for example, signed/unsigned integers
 -- of different sizes) to give a simpler set of types to work with.
 --
--- If you need to know about the very specifics of the FIT file structure, use the Raw API
--- instead. However, for pulling information out of a FIT file this API is much more
--- convenient.
+-- If you need to know about the specifics of the FIT file structure, use the API in
+-- "Fit.Internal.FitFile" instead. However, for pulling information out of a FIT file
+-- this API is much more convenient.
 module Fit.Messages (
   readMessages,
   readFileMessages,
@@ -18,8 +18,8 @@ module Fit.Messages (
   ArrayValue(..)
   ) where
 
-import qualified Fit.Internal.FitFile as Raw
-import qualified Fit.Internal.Parse as Raw
+import qualified Fit.Internal.FitFile as FF
+import qualified Fit.Internal.Parse as FF
 
 import Control.Applicative ((<$>))
 import Data.Attoparsec.ByteString (Parser)
@@ -42,7 +42,7 @@ newtype Messages = Messages {
 -- | A FIT data message
 data Message = Message {
   _mNumber :: !Int,        -- ^ The global message number, as found in the FIT profile
-  _mFields :: IntMap Field -- ^ The fields in the message, mapped from field number to @Field@
+  _mFields :: IntMap Field -- ^ The fields in the message, mapped from field number to 'Field'
   } deriving (Show)
 
 -- | A single field in a FIT data message
@@ -56,77 +56,77 @@ data Value = Singleton SingletonValue
            | Array ArrayValue
            deriving (Show)
 
--- | A singleton value. In the Messages API we abstract over the specific FIT base type of the field. For example, the FIT types uint8, sint8, uint16, etc. are all presented as an @IntValue@. FIT strings (ie. character arrays) are presented as singleton @TextValue@s. If you need to know the specific base type of a field you can use the Raw API.
+-- | A singleton value. In the Messages API we abstract over the specific FIT base type of the field. For example, the FIT types uint8, sint8, uint16, etc. are all presented as an 'IntValue'. FIT strings (ie. character arrays) are presented as singleton 'TextValue's. If you need to know the specific base type of a field you can use the API in "Fit.Internal.FitFile".
 data SingletonValue = IntValue !Int
                     | RealValue !Double
                     | ByteValue !Word8
                     | TextValue Text
                     deriving (Show)
 
--- | Array values. Like singleton values these ignore the specific FIT base type to present a simpler interface. Byte arrays are presented as strict @ByteString@s. There are no character arrays, since the singleton @TextValue@ handles that case.
+-- | Array values. Like singleton values these ignore the specific FIT base type to present a simpler interface. Byte arrays are presented as strict 'ByteString's. There are no character arrays, since the singleton 'TextValue' handles that case.
 data ArrayValue = IntArray (Seq Int)
                 | RealArray (Seq Double)
                 | ByteArray ByteString
                 deriving (Show)
 
--- | Parse a strict @ByteString@ containing the FIT data into its @Messages@
+-- | Parse a strict 'ByteString' containing the FIT data into its 'Messages'
 readMessages :: ByteString -> Either String Messages
-readMessages bs = toMessages <$> Raw.readFitRaw bs
+readMessages bs = toMessages <$> FF.readFitRaw bs
 
--- | Parse the given FIT file into its @Messages@
+-- | Parse the given FIT file into its 'Messages'
 readFileMessages :: FilePath -> IO (Either String Messages)
 readFileMessages fp = B.readFile fp >>= return . readMessages
 
--- | An Attoparsec parser for @Messages@
+-- | An Attoparsec parser for 'Messages'
 parseMessages :: Parser Messages
-parseMessages = fmap toMessages Raw.parseFit
+parseMessages = fmap toMessages FF.parseFit
 
-toMessages :: Raw.Fit -> Messages
-toMessages rFit = Messages . S.fromList . catMaybes $ fmap toMessage (Raw.fMessages rFit)
+toMessages :: FF.Fit -> Messages
+toMessages rFit = Messages . S.fromList . catMaybes $ fmap toMessage (FF.fMessages rFit)
 
-toMessage :: Raw.Message -> Maybe Message
-toMessage (Raw.DefM _) = Nothing
-toMessage (Raw.DataM _ gmt fields) = Just $ Message gmt (foldr go Map.empty fields)
-  where go f@(Raw.SingletonField num _) fieldMap = Map.insert num (toField f) fieldMap
-        go f@(Raw.ArrayField num _) fieldMap = Map.insert num (toField f) fieldMap
+toMessage :: FF.Message -> Maybe Message
+toMessage (FF.DefM _) = Nothing
+toMessage (FF.DataM _ gmt fields) = Just $ Message gmt (foldr go Map.empty fields)
+  where go f@(FF.SingletonField num _) fieldMap = Map.insert num (toField f) fieldMap
+        go f@(FF.ArrayField num _) fieldMap = Map.insert num (toField f) fieldMap
 
-toField :: Raw.Field -> Field
-toField (Raw.SingletonField num value) = Field num . Singleton $ (fromSingletonValue value)
-toField (Raw.ArrayField num array) = Field num . Array $ (fromArray array)
+toField :: FF.Field -> Field
+toField (FF.SingletonField num value) = Field num . Singleton $ (fromSingletonValue value)
+toField (FF.ArrayField num array) = Field num . Array $ (fromArray array)
 
-fromSingletonValue :: Raw.Value -> SingletonValue
+fromSingletonValue :: FF.Value -> SingletonValue
 fromSingletonValue v =
   case v of
-   Raw.EnumValue i -> IntValue (fromIntegral i)
-   Raw.SInt8Value i -> IntValue (fromIntegral i)
-   Raw.UInt8Value i -> IntValue (fromIntegral i)
-   Raw.SInt16Value i -> IntValue (fromIntegral i)
-   Raw.UInt16Value i -> IntValue (fromIntegral i)
-   Raw.SInt32Value i -> IntValue (fromIntegral i)
-   Raw.UInt32Value i -> IntValue (fromIntegral i)
-   Raw.StringValue t -> TextValue t
-   Raw.Float32Value f -> RealValue (fromRational (toRational f))
-   Raw.Float64Value f -> RealValue f
-   Raw.UInt8ZValue i -> IntValue (fromIntegral i)
-   Raw.UInt16ZValue i -> IntValue (fromIntegral i)
-   Raw.UInt32ZValue i -> IntValue (fromIntegral i)
-   Raw.ByteValue b -> ByteValue b
+   FF.EnumValue i -> IntValue (fromIntegral i)
+   FF.SInt8Value i -> IntValue (fromIntegral i)
+   FF.UInt8Value i -> IntValue (fromIntegral i)
+   FF.SInt16Value i -> IntValue (fromIntegral i)
+   FF.UInt16Value i -> IntValue (fromIntegral i)
+   FF.SInt32Value i -> IntValue (fromIntegral i)
+   FF.UInt32Value i -> IntValue (fromIntegral i)
+   FF.StringValue t -> TextValue t
+   FF.Float32Value f -> RealValue (fromRational (toRational f))
+   FF.Float64Value f -> RealValue f
+   FF.UInt8ZValue i -> IntValue (fromIntegral i)
+   FF.UInt16ZValue i -> IntValue (fromIntegral i)
+   FF.UInt32ZValue i -> IntValue (fromIntegral i)
+   FF.ByteValue b -> ByteValue b
 
-fromArray :: Raw.Array -> ArrayValue
+fromArray :: FF.Array -> ArrayValue
 fromArray a =
   case a of
-   Raw.EnumArray xs -> intArray xs
-   Raw.SInt8Array xs -> intArray xs
-   Raw.UInt8Array xs -> intArray xs
-   Raw.SInt16Array xs -> intArray xs
-   Raw.UInt16Array xs -> intArray xs
-   Raw.SInt32Array xs -> intArray xs
-   Raw.UInt32Array xs -> intArray xs
-   Raw.Float32Array xs -> realArray xs
-   Raw.Float64Array xs -> realArray xs
-   Raw.UInt8ZArray xs -> intArray xs
-   Raw.UInt16ZArray xs -> intArray xs
-   Raw.UInt32ZArray xs -> intArray xs
-   Raw.ByteArray bs -> ByteArray . B.pack $ F.toList bs
+   FF.EnumArray xs -> intArray xs
+   FF.SInt8Array xs -> intArray xs
+   FF.UInt8Array xs -> intArray xs
+   FF.SInt16Array xs -> intArray xs
+   FF.UInt16Array xs -> intArray xs
+   FF.SInt32Array xs -> intArray xs
+   FF.UInt32Array xs -> intArray xs
+   FF.Float32Array xs -> realArray xs
+   FF.Float64Array xs -> realArray xs
+   FF.UInt8ZArray xs -> intArray xs
+   FF.UInt16ZArray xs -> intArray xs
+   FF.UInt32ZArray xs -> intArray xs
+   FF.ByteArray bs -> ByteArray . B.pack $ F.toList bs
   where intArray is = IntArray $ fmap fromIntegral is
         realArray rs = RealArray $ fmap (fromRational . toRational) rs

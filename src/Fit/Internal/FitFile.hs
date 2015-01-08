@@ -63,7 +63,7 @@ msgLmt :: Message -> LocalMessageType
 msgLmt (DefM (MessageDef lmt _ _ _)) = lmt
 msgLmt (DataM lmt _ _) = lmt
 
--- | A @MessageDefinition@ for a local message type (LMT) determines how future data messages with
+-- | A 'MessageDefinition' for a local message type (LMT) determines how future data messages with
 -- that LMT are decoded. LMTs can be re-used: a data message with LMT @n@ will use the /most recent/
 -- message definition for LMT @n@.
 data MessageDefinition = MessageDef {
@@ -99,7 +99,7 @@ data Field = SingletonField !Int Value
 -- | Singleton values. There is a Value constructor for each BaseType constructor. The wrapped
 -- value in these constructors corresponds to the specific format used in the FIT file, for
 -- example an 'enum' in FIT is stored as an 8-bit unsigned int (ie a Word8). The primary exception
--- to this is using @Text@ for string values.
+-- to this is using 'Text' for string values.
 data Value = EnumValue !Word8
            | SInt8Value !Int8
            | UInt8Value !Word8
@@ -108,7 +108,7 @@ data Value = EnumValue !Word8
            | SInt32Value !Int32
            | UInt32Value !Word32
            | StringValue Text -- ^ A 'string' in FIT is a null-terminated arrays of UTF-8
-                              -- code units, but @Text@ is used here instead
+                              -- code units, but 'Text' is used here instead
            | Float32Value !Float
            | Float64Value !Double
            | UInt8ZValue !Word8
@@ -145,11 +145,11 @@ data MessageHeader = DefHeader !LocalMessageType
 -- | A local message type is a 4 bit unsigned integer
 newtype LocalMessageType = LMT { unLmt :: Int8 } deriving (Show, Eq)
 
--- | Only the lower 4 bits of the integer are used to construct a @LocalMessageType@
+-- | Only the lower 4 bits of the integer are used to construct a 'LocalMessageType'
 mkLocalMessageType :: (Integral a, Bits a) => a -> LocalMessageType
 mkLocalMessageType = LMT . fromIntegral . ((.&.) 0xF)
 
--- | Unwrap a @LocalMessageType@. The resulting integer will be between 0 and 15
+-- | Unwrap a 'LocalMessageType'. The resulting integer will be between 0 and 15
 unLocalMessageType :: Integral a => LocalMessageType -> a
 unLocalMessageType = fromIntegral . unLmt
 

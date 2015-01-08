@@ -42,12 +42,12 @@ import Data.Text.Encoding (decodeUtf8)
 import Data.Word (Word8)
 
 -- TODO ignores final CRC bytes
--- | Parse a strict @ByteString@ containing the FIT data into a @Fit@ value
+-- | Parse a strict 'ByteString' containing the FIT data into a 'Fit' value
 readFitRaw :: ByteString -> Either String Fit
 readFitRaw bs = let noCrc = B.init (B.init bs) -- Drop CRC bytes
                 in A.parseOnly parseFit noCrc
 
--- | An Attoparsec parser for @Fit@ values
+-- | An Attoparsec parser for 'Fit' values
 parseFit :: Parser Fit
 parseFit = runFitParser $ Fit <$> parseHeader <*> parseMessages
 
@@ -207,7 +207,7 @@ mkHeader byte =
     ctLmt = mkLocalMessageType $ (byte `shiftR` 5) .&. 0x3 -- in CT header the lmt is bits 5 and 6
     ctOffset = mkTimeOffset byte -- in CT header the time offset is already low 5 bits
 
--- Originally this was exported from Fit.Raw.Types, but haddock chokes on patterns
+-- Originally this was exported from Fit.Internal.Types, but haddock chokes on patterns
 -- between modules. I think the bug is fixed in GHC 7.8.4, so can move this back to
 -- that module once we're off 7.8.3.
 pattern TimestampField t = SingletonField 253 (UInt32Value t)
