@@ -21,6 +21,8 @@ description:
  "Fit" module should be sufficient and convenient for most uses, but if you need access
  to the exact structure of the file you can use the data types in "Fit.Internal.FitFile"
  and parsers in "Fit.Internal.Parse".
+ .
+ Feel free to contact me if you have any questions, suggestions, or requests.
 category:            Data, Parsing, Fitness
 stability:           experimental
 build-type:          Simple
