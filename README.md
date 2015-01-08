@@ -14,3 +14,17 @@ that the API in `Fit.Messages` (re-exported in `Fit`) should be sufficient and
 convenient for most uses, but if you need access to the exact structure of the file
 you can use the data structures in `Fit.Internal.FitFile` and parsers in
 `Fit.Internal.Parse`.
+
+# Example
+
+Given a FIT file name "file.fit", here's how you could extract all of the "speed" fields
+from all of the "record" messages using the lenses in the Messages API. Looking at the FIT
+Profile.xls file, you can see that the message number for "record" is `20`, and within a
+record the field number for "speed" is `6`. In a GHCi session:
+
+```haskell
+Right fit <- readFileMessages "file.fit"
+let speeds = fit ^.. message 20 . field 6 . int
+```
+
+Now `speeds :: [Int]` is a list of the speed recordings from your activity.
