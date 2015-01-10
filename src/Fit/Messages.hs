@@ -1,11 +1,21 @@
--- | The Messages API abtracts over the structure of a FIT file slightly and presents
--- the FIT file as just the sequence of data messages in the file. The Messages API
--- also abstracts over the various FIT base types (for example, signed/unsigned integers
--- of different sizes) to give a simpler set of types to work with.
---
--- If you need to know about the specifics of the FIT file structure, use the API in
--- "Fit.Internal.FitFile" instead. However, for pulling information out of a FIT file
--- this API is much more convenient.
+{-|
+Module      : Fit.Messages
+Copyright   : Copyright 2014-2015, Matt Giles
+License     : Modified BSD License (see LICENSE file)
+Maintainer  : matt.w.giles@gmail.com
+Stability   : experimental
+
+The Messages API abtracts over the structure of a FIT file slightly and presents
+the FIT file as just the sequence of data messages in the file. The Messages API
+also abstracts over the various FIT base types (for example, signed/unsigned integers
+of different sizes) to give a simpler set of types to work with.
+
+If you need to know about the specifics of the FIT file structure, use the API in
+"Fit.Internal.FitFile" instead. However, for pulling information out of a FIT file
+this API is much more convenient.
+-}
+
+
 module Fit.Messages (
   readMessages,
   readFileMessages,

@@ -1,3 +1,11 @@
+{-|
+Module      : Fit
+Copyright   : Copyright 2014-2015, Matt Giles
+License     : Modified BSD License
+Maintainer  : matt.w.giles@gmail.com
+Stability   : experimental
+-}
+
 module Fit (
   -- * Messages API
   -- $messages

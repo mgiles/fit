@@ -1,3 +1,12 @@
+{-|
+Module      : Fit.Internal.Parse
+Copyright   : Copyright 2014-2015, Matt Giles
+License     : Modified BSD License (see LICENSE file)
+Maintainer  : matt.w.giles@gmail.com
+Stability   : experimental
+
+-}
+
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE PatternSynonyms #-}

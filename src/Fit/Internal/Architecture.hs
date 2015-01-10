@@ -1,10 +1,19 @@
+{-|
+Module      : Fit.Internal.Architecture
+Copyright   : Copyright 2014-2015, Matt Giles
+License     : Modified BSD License (see LICENSE file)
+Maintainer  : matt.w.giles@gmail.com
+Stability   : experimental
+
+FIT files can contain values encoded with both little-endian and big-endian orderings, and this
+can vary throughout the file. This module provides some helper types for using parsers
+with the correct endian-ness during the parse. See the "Fit.Internal.Numbers" and
+"Fit.Internal.FitParser" modules for example use.
+-}
+
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE DataKinds #-}
 
--- | FIT files can contain values encoded with both little-endian and big-endian orderings, and this
--- can vary throughout the file. This module provides some helper types for using parsers
--- with the correct endian-ness during the parse. See the "Fit.Internal.Numbers" and
--- "Fit.Internal.FitParser" modules for example use.
 module Fit.Internal.Architecture (
   Arch(..),
   WithArch(..),

@@ -1,14 +1,23 @@
--- | Some basic lenses for the Messages API. These are compatible with both lens and lens-family.
--- This package doesn't provide any lens combinators like @^.@ or @^..@, so you'll need to use
--- ones from a lens package.
---
--- For example, the following code gets the values of the 'speed' fields
--- from all of the 'record' messages in the file:
---
--- @
--- Right fit <- readFileMessages "file.fit"
--- let speeds = fit ^.. message 20 . field 6 . int
--- @
+{-|
+Module      : Fit.Messages.Lens
+Copyright   : Copyright 2014-2015, Matt Giles
+License     : Modified BSD License (see LICENSE file)
+Maintainer  : matt.w.giles@gmail.com
+Stability   : experimental
+
+Some basic lenses for the Messages API. These are compatible with both lens and lens-family.
+This package doesn't provide any lens combinators like @^.@ or @^..@, so you'll need to use
+ones from a lens package.
+
+For example, the following code gets the values of the 'speed' fields
+from all of the 'record' messages in the file:
+
+@
+Right fit <- readFileMessages "file.fit"
+let speeds = fit ^.. message 20 . field 6 . int
+@
+-}
+
 module Fit.Messages.Lens (
   -- * Messages
   messages,

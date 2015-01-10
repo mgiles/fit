@@ -1,7 +1,16 @@
--- | Little-endian and big-endian parsers for signed and unsigned integers, and
--- for single-precision and double-precision floating point numbers.
---
--- The parsers are tagged for endianness using the tools in "Fit.Internal.Architecture".
+{-|
+Module      : Fit.Internal.Numbers
+Copyright   : Copyright 2014-2015, Matt Giles
+License     : Modified BSD License (see LICENSE file)
+Maintainer  : matt.w.giles@gmail.com
+Stability   : experimental
+
+Little-endian and big-endian parsers for signed and unsigned integers, and
+for single-precision and double-precision floating point numbers.
+
+The parsers are tagged for endianness using the tools in "Fit.Internal.Architecture".
+-}
+
 module Fit.Internal.Numbers (
   -- * Little-endian parsers
   int16le,

@@ -1,3 +1,12 @@
+{-|
+Module      : Fit.Internal.FitParser
+Copyright   : Copyright 2014-2015, Matt Giles
+License     : Modified BSD License (see LICENSE file)
+Maintainer  : matt.w.giles@gmail.com
+Stability   : experimental
+
+-}
+
 {-# LANGUAGE LambdaCase #-}
 
 module Fit.Internal.FitParser (
