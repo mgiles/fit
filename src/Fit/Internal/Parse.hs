@@ -35,7 +35,7 @@ import Fit.Internal.Architecture
 import Fit.Internal.FitFile
 import Fit.Internal.FitParser
 
-import Control.Applicative ((<$>), (<*>), (<*))
+import Control.Applicative
 import Control.Monad (replicateM)
 import Control.Monad.Trans (lift)
 import Data.Attoparsec.ByteString (Parser)
@@ -49,6 +49,8 @@ import qualified Data.Sequence as S (fromList)
 import Data.Text (Text)
 import Data.Text.Encoding (decodeUtf8)
 import Data.Word (Word8)
+
+import Prelude
 
 -- TODO ignores final CRC bytes
 -- | Parse a strict 'ByteString' containing the FIT data into a 'Fit' value

@@ -43,15 +43,17 @@ module Fit.Messages.Lens (
 
 import Fit.Messages
 
-import Control.Applicative ((<$>), pure, Applicative)
+import Control.Applicative
 import Data.ByteString (ByteString)
 import Data.Functor.Contravariant (Contravariant, contramap)
 import qualified Data.IntMap as Map (filterWithKey)
 import Data.Sequence (Seq)
 import qualified Data.Sequence as S (filter)
 import Data.Text (Text)
-import Data.Traversable (traverse)
+import Data.Traversable
 import Data.Word (Word8)
+
+import Prelude
 
 -- Helper for building Folds
 coerce :: (Contravariant f, Applicative f) => f a -> f b

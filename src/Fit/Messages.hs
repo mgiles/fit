@@ -31,7 +31,7 @@ module Fit.Messages (
 import qualified Fit.Internal.FitFile as FF
 import qualified Fit.Internal.Parse as FF
 
-import Control.Applicative ((<$>))
+import Control.Applicative
 import Data.Attoparsec.ByteString (Parser)
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as B (readFile, pack)
@@ -43,6 +43,8 @@ import Data.Sequence (Seq)
 import qualified Data.Sequence as S (fromList)
 import Data.Text (Text)
 import Data.Word (Word8)
+
+import Prelude
 
 -- | The collection of data messages from the FIT file.
 newtype Messages = Messages {

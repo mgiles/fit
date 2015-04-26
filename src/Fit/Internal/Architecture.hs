@@ -23,7 +23,8 @@ module Fit.Internal.Architecture (
   withBE
   ) where
 
-import Control.Applicative (Applicative, pure, (<*>))
+import Control.Applicative
+import Prelude
 
 data Arch = ArchLittle
           | ArchBig
@@ -40,10 +41,10 @@ instance Applicative (WithArch a) where
   (WithArch f) <*> (WithArch x) = WithArch (f x)
 
 -- | Convenience type for values to use in a little-endian context
-type LittleEndian a = WithArch ArchLittle a
+type LittleEndian a = WithArch 'ArchLittle a
 
 -- | Convenience type for values to use in a big-endian context
-type BigEndian a = WithArch ArchBig a
+type BigEndian a = WithArch 'ArchBig a
 
 -- | Alias for 'pure'
 withLE :: a -> LittleEndian a

@@ -44,7 +44,7 @@ import Fit.Internal.Architecture
 import Fit.Internal.FitFile
 import qualified Fit.Internal.Numbers as N
 
-import Control.Applicative ((<$>), (<*), (*>))
+import Control.Applicative
 import Control.Monad.State.Class (get, modify)
 import Control.Monad.State.Strict (StateT, evalStateT)
 import Control.Monad.Trans (lift)
@@ -55,6 +55,8 @@ import Data.Int (Int8, Int16, Int32, Int64)
 import Data.IntMap.Strict (IntMap)
 import qualified Data.IntMap.Strict as IntMap (insert, lookup, empty)
 import Data.Word (Word8, Word16, Word32, Word64)
+
+import Prelude
 
 type FitParser a = StateT FpState Parser a
 
@@ -234,8 +236,3 @@ newtype Identity a = Identity { runIdentity :: a }
 
 instance Functor Identity where
   fmap f (Identity a) = Identity (f a)
-
-newtype Const a b = Const { getConst :: a }
-
-instance Functor (Const a) where
-  fmap _ (Const x) = (Const x)

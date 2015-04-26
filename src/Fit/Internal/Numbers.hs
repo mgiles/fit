@@ -39,7 +39,7 @@ module Fit.Internal.Numbers (
 
 import Fit.Internal.Architecture
 
-import Control.Applicative ((<$>))
+import Control.Applicative
 
 import Data.Int (Int16, Int32, Int64)
 import Data.Bits (Bits, shiftL, FiniteBits, finiteBitSize)
@@ -51,6 +51,8 @@ import qualified Data.ByteString as B (foldr, foldl')
 
 import qualified Foreign as F (alloca, poke, peek, castPtr)
 import System.IO.Unsafe (unsafePerformIO)
+
+import Prelude
 
 {- little-endian parsers -}
 word16le :: LittleEndian (Parser Word16)
