@@ -5,7 +5,7 @@ License     : Modified BSD License (see LICENSE file)
 Maintainer  : matt.w.giles@gmail.com
 Stability   : experimental
 
-The Messages API abtracts over the structure of a FIT file slightly and presents
+The Messages API abstracts over the structure of a FIT file slightly and presents
 the FIT file as just the sequence of data messages in the file. The Messages API
 also abstracts over the various FIT base types (for example, signed/unsigned integers
 of different sizes) to give a simpler set of types to work with.
