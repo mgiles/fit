@@ -135,7 +135,7 @@ parseField (FieldDef num size bt) = do
 
   field <- if numValues == 1 || (bt == FitString)
            then SingletonField num <$> parseValue bt
-           else ArrayField num <$> parseArray num bt
+           else ArrayField num <$> parseArray numValues bt
 
   case field of
    TimestampField t -> storeTimestamp (Timestamp t) >> return field
